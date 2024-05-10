@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('fly_speed')->nullable();
             $table->integer('swim_speed')->nullable();
             $table->json('languages');
+            $table->unsignedBigInteger('race_features_fk');
+            $table->foreign('race_features_fk')->references('race_id')->on('races')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

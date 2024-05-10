@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('int_inc')->default(0);
             $table->integer('wis_inc')->default(0);
             $table->integer('cha_inc')->default(0);
+            $table->unsignedBigInteger('race_scores_fk');
+            $table->foreign('race_scores_fk')->references('race_id')->on('races')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

@@ -16,10 +16,6 @@ return new class extends Migration
             $table->text('race_name');
             $table->json('race_description');
             $table->text('race_type');
-            $table->unsignedBigInteger('score_increase_fk');
-            $table->foreign('score_increase_fk')->references('score_increase_id')->on('score_increases')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->unsignedBigInteger('race_features_fk');
-            $table->foreign('race_features_fk')->references('race_feature_id')->on('race_features')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }
