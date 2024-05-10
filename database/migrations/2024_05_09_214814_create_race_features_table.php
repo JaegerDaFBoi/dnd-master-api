@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('race_features', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('race_feature_id');
+            $table->enum('size', ['Tiny', 'Small', 'Medium or Small', 'Medium', 'Large', 'Huge', 'Gargantuan']);
+            $table->integer('walk_speed');
+            $table->integer('fly_speed')->nullable();
+            $table->integer('swim_speed')->nullable();
+            $table->json('languages');
         });
     }
 

@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('score_increases', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('score_increase_id');
+            $table->integer('str_inc')->default(0);
+            $table->integer('dex_inc')->default(0);
+            $table->integer('con_inc')->default(0);
+            $table->integer('int_inc')->default(0);
+            $table->integer('wis_inc')->default(0);
+            $table->integer('cha_inc')->default(0);
         });
     }
 
