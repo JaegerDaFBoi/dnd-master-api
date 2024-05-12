@@ -18,8 +18,6 @@ class Race extends Model
         'race_name',
         'race_description',
         'race_type',
-        'score_increase_fk',
-        'race_features_fk'
     ];
 
     public function scoreIncreases(): HasOne {

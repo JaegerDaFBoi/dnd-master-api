@@ -19,7 +19,8 @@ class ScoreIncrease extends Model
         'con_inc',
         'int_inc',
         'wis_inc',
-        'cha_inc'
+        'cha_inc',
+        'race_scores_fk'
     ];
 
 }

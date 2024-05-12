@@ -18,6 +18,7 @@ class RaceFeatures extends Model
         'walk_speed',
         'fly_speed',
         'swim_speed',
-        'languages'
+        'languages',
+        'race_features_fk'
     ];
 }
