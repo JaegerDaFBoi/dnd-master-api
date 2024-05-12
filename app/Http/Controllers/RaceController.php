@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Race;
 use App\Services\RaceFeatureService;
 use App\Services\ScoreIncreaseService;
+use App\Services\TraitsService;
 use Illuminate\Http\Request;
 
 class RaceController extends Controller
@@ -12,11 +13,17 @@ class RaceController extends Controller
 
     private $scoreService;
     private $raceFeatureService;
+    private $traitsService;
 
-    public function __construct(ScoreIncreaseService $scoreIncreaseService, RaceFeatureService $raceFeatureService)
+    public function __construct(
+        ScoreIncreaseService $scoreIncreaseService, 
+        RaceFeatureService $raceFeatureService,
+        TraitsService $traitsService
+        )
     {
         $this->scoreService = $scoreIncreaseService;
         $this->raceFeatureService = $raceFeatureService;
+        $this->traitsService = $traitsService;
     }
 
     /**
@@ -49,9 +56,10 @@ class RaceController extends Controller
         $raceId = $race->race_id;
         $scoreIncreases = $raceData['scoreIncreases'];
         $raceFeatures = $raceData['raceFeatures'];
+        $raceTraits = $raceData['raceTraits'];
         $this->scoreService->saveScoreIncreases($scoreIncreases, $raceId);
         $this->raceFeatureService->saveRaceFeatures($raceFeatures, $raceId);
-
+        $this->traitsService->saveTraits($raceTraits, $race);
         return response()->json([
             "message" => "Raza almacenada correctamente"
         ], 200);
