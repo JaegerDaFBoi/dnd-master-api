@@ -3,10 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
+use App\Services\RaceFeatureService;
+use App\Services\ScoreIncreaseService;
 use Illuminate\Http\Request;
 
 class RaceController extends Controller
 {
+
+    private $scoreService;
+    private $raceFeatureService;
+
+    public function __construct(ScoreIncreaseService $scoreIncreaseService, RaceFeatureService $raceFeatureService)
+    {
+        $this->scoreService = $scoreIncreaseService;
+        $this->raceFeatureService = $raceFeatureService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -24,11 +36,21 @@ class RaceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Endpoint to store a new race
      */
     public function store(Request $request)
     {
-        //
+        $race = new Race();
+        $raceData = $request->all();
+        $race->race_name = $raceData['name'];
+        $race->race_description = json_encode($raceData['description']);
+        $race->race_type = $raceData['description'];
+        $race->save();
+        $raceId = $race->race_id;
+        $scoreIncreases = $raceData['scoreIncreases'];
+        $raceFeatures = $raceData['raceFeatures'];
+        $this->scoreService->saveScoreIncreases($scoreIncreases, $raceId);
+        $this->raceFeatureService->saveRaceFeatures($raceFeatures, $raceId);
     }
 
     /**
