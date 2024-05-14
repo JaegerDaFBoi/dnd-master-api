@@ -22,5 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(RaceController::class)->group(function() {
     Route::prefix('/race')->group(function() {
         Route::post('/create', 'store');
+        Route::get('/list', 'index');
+        Route::get('/list/details/{id}', 'show');
     });
 });
