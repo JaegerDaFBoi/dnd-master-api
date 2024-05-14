@@ -85,9 +85,9 @@ class RaceController extends Controller
         $race = Race::find($id);
         $scores = $this->scoreService->retrieveScoreIncreases($id);
         $features = $this->raceFeatureService->retrieveRaceFeatures($id);
-        $traits = $this->traitsService->retrieveRaceTraits($race);
         $this->scoreService->updateScoreIncreases($request['scoreIncreases'], $scores);
         $this->raceFeatureService->updateRaceFeatures($request['raceFeatures'], $features);
+        $this->traitsService->updateRaceTraits($request['raceTraits'], $race);
         $race->race_name = $request['name'];
         $race->race_description = json_encode($request['description']);
         $race->race_type = $request['type'];
