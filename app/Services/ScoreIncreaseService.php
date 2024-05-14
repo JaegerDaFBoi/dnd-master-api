@@ -18,4 +18,18 @@ class ScoreIncreaseService {
         $scoreIncreases->race_scores_fk = $id;
         $scoreIncreases->save();
     }
+
+    public function retrieveScoreIncreases($id) {
+        $scores = ScoreIncrease::where('race_scores_fk', $id)->first();
+        return $scores;
+    }
+
+    public function updateScoreIncreases($increasesToUpdate, $scores) {
+        foreach ($increasesToUpdate as $score => $scoreValue) {
+            if ($scoreValue != $scores->$score) {
+                $scores->$score = $scoreValue;
+            }
+        }
+        $scores->save();
+    }
 }

@@ -16,4 +16,18 @@ class RaceFeatureService {
         $raceFeatures->race_features_fk = $id;
         $raceFeatures->save();
     }
+
+    public function retrieveRaceFeatures($id) {
+        $features = RaceFeatures::where('race_features_fk', $id)->first();
+        return $features;
+    }
+
+    public function updateRaceFeatures($featuresToUpdate, $features) {
+        $features->size = $featuresToUpdate['size'];
+        $features->walk_speed = $featuresToUpdate['walkSpeed'];
+        $features->fly_speed = $featuresToUpdate['flySpeed'];
+        $features->swim_speed = $featuresToUpdate['swimSpeed'];
+        $features->languages = json_encode($featuresToUpdate['languages']);
+        $features->save();
+    }
 }

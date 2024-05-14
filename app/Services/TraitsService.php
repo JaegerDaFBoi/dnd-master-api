@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\CharacterTrait;
+use App\Models\Race;
 
 class TraitsService {
 
@@ -26,5 +27,10 @@ class TraitsService {
         foreach ($ids as $id => $idValue) {
             $model->traits()->attach(['trait_fk' => $idValue]);
         }
+    }
+
+    public function retrieveRaceTraits(Race $race) {
+        $traits = $race->traits()->get();
+        return $traits;
     }
 }
