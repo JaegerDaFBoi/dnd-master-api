@@ -20,7 +20,6 @@ class TraitsService {
             array_push($traitsIds, $traitId);
         }
         $this->attachTraitsToModel($traitsIds, $model);
-        dd($model->traits());
     }
 
     public function attachTraitsToModel($ids, $model) { 

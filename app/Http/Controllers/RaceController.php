@@ -27,19 +27,15 @@ class RaceController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Endpoint to list all races.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $races = Race::all();
+        return response()->json([
+            "message" => "Busqueda realizada",
+            "data" => $races
+        ], 200);
     }
 
     /**
@@ -51,7 +47,7 @@ class RaceController extends Controller
         $raceData = $request->all();
         $race->race_name = $raceData['name'];
         $race->race_description = json_encode($raceData['description']);
-        $race->race_type = $raceData['description'];
+        $race->race_type = $raceData['type'];
         $race->save();
         $raceId = $race->race_id;
         $scoreIncreases = $raceData['scoreIncreases'];
@@ -66,19 +62,19 @@ class RaceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Endpoint to display specific race.
      */
-    public function show(Race $race)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Race $race)
-    {
-        //
+        $race = Race::where('race_id', $id)
+                ->with('scoreIncreases')
+                ->with('raceFeatures')
+                ->with('traits')
+                ->get();
+        return response()->json([
+            "message" => "Busqueda realizada correctamente",
+            "data" => $race
+        ]);
     }
 
     /**
