@@ -80,9 +80,21 @@ class RaceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Race $race)
+    public function update(Request $request, $id)
     {
-        //
+        $race = Race::find($id);
+        $scores = $this->scoreService->retrieveScoreIncreases($id);
+        $features = $this->raceFeatureService->retrieveRaceFeatures($id);
+        $traits = $this->traitsService->retrieveRaceTraits($race);
+        $this->scoreService->updateScoreIncreases($request['scoreIncreases'], $scores);
+        $this->raceFeatureService->updateRaceFeatures($request['raceFeatures'], $features);
+        $race->race_name = $request['name'];
+        $race->race_description = json_encode($request['description']);
+        $race->race_type = $request['type'];
+        $race->save();
+        return response()->json([
+            "message" => "Registro actualizado correctamente"
+        ], 200);
     }
 
     /**
