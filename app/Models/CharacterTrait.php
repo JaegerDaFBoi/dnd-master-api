@@ -23,4 +23,8 @@ class CharacterTrait extends Model
     public function races(): BelongsToMany {
         return $this->belongsToMany(Race::class, 'race_has_traits', 'trait_fk', 'race_fk', 'character_trait_id', 'race_id');
     }
+
+    public function characterClasses(): BelongsToMany {
+        return $this->belongsToMany(CharacterClass::class, 'character_class_has_traits', 'trait_fk', 'character_class_fk', 'character_trait_id', 'character_clas_id');
+    }
 }
