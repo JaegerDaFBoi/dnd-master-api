@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(RaceController::class)->group(function() {
+    Route::prefix('/race')->group(function() {
+        Route::post('/create', 'store');
+        Route::get('/list', 'index');
+        Route::get('/list/details/{id}', 'show');
+        Route::patch('/update/{id}', 'update');
+        Route::delete('/delete/{id}', 'destroy');
+    });
 });
