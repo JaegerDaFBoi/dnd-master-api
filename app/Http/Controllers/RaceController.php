@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CharacterTrait;
 use App\Models\Race;
 use App\Services\RaceFeatureService;
 use App\Services\ScoreIncreaseService;
@@ -75,7 +76,7 @@ class RaceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Endpoint to update race info.
      */
     public function update(Request $request, $id)
     {
@@ -95,10 +96,22 @@ class RaceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Endpoint for deleting race from DB.
      */
-    public function destroy(Race $race)
+    public function destroy(Request $request, $id)
     {
-        //
+        $race = Race::find($id);
+        $traits = $race->traits()->pluck('character_trait_id');
+        $race->traits()->detach($traits);
+        if ($request['deleteTraitsFromDB'] === true) {
+            foreach ($traits as $trait) {
+                $traitToDelete = CharacterTrait::find($trait);
+                $traitToDelete->delete();
+            }
+        }
+        $race->delete();
+        return response()->json([
+            "message" => "Registro eliminado correctamente"
+        ], 200);
     }
 }
