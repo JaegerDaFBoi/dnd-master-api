@@ -4,14 +4,14 @@ namespace App\Services;
 
 use App\Models\ScoreIncrease;
 
-class ScoreIncreaseService {
+class ScoreIncreaseService
+{
 
-    public function saveScoreIncreases($increases, $id) {
+    public function saveScoreIncreases($increases, $id)
+    {
         $scoreIncreases = new ScoreIncrease();
-        $filteredIncreases = [];
         foreach ($increases as $score => $scoreValue) {
-            if ($scoreValue === 1) {
-                $filteredIncreases[$score] = $scoreValue;
+            if ($scoreValue > 0) {
                 $scoreIncreases->$score = $scoreValue;
             }
         }
@@ -19,12 +19,14 @@ class ScoreIncreaseService {
         $scoreIncreases->save();
     }
 
-    public function retrieveScoreIncreases($id) {
+    public function retrieveScoreIncreases($id)
+    {
         $scores = ScoreIncrease::where('race_scores_fk', $id)->first();
         return $scores;
     }
 
-    public function updateScoreIncreases($increasesToUpdate, $scores) {
+    public function updateScoreIncreases($increasesToUpdate, $scores)
+    {
         foreach ($increasesToUpdate as $score => $scoreValue) {
             if ($scoreValue != $scores->$score) {
                 $scores->$score = $scoreValue;

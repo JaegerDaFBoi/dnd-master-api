@@ -50,12 +50,9 @@ class RaceController extends Controller
         $race->race_type = $raceData['type'];
         $race->save();
         $raceId = $race->race_id;
-        $scoreIncreases = $raceData['scoreIncreases'];
-        $raceFeatures = $raceData['raceFeatures'];
-        $raceTraits = $raceData['raceTraits'];
-        $this->scoreService->saveScoreIncreases($scoreIncreases, $raceId);
-        $this->raceFeatureService->saveRaceFeatures($raceFeatures, $raceId);
-        $this->traitsService->saveTraits($raceTraits, $race);
+        $this->scoreService->saveScoreIncreases($raceData['scoreIncreases'], $raceId);
+        $this->raceFeatureService->saveRaceFeatures($raceData['raceFeatures'], $raceId);
+        $this->traitsService->saveTraits($raceData['raceTraits'], $race);
         return response()->json([
             "message" => "Raza almacenada correctamente"
         ], 200);

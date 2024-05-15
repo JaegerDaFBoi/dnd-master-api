@@ -40,7 +40,6 @@ class TraitsService
 
     public function updateRaceTraits($traitsToUpdate, Race $race)
     {
-        $actualTraits = $this->retrieveRaceTraits($race);
         $newTraits = [];
         foreach ($traitsToUpdate as $trait) {
             $searchedTrait = CharacterTrait::where('trait_title', $trait['traitTitle'])->first();
@@ -60,7 +59,6 @@ class TraitsService
                     $existingTrait->save();
                 }
             } else {
-                $newTrait = new CharacterTrait();
                 $newTrait = new CharacterTrait();
                 $newTrait->trait_title = $trait['traitTitle'];
                 $newTrait->trait_description = $trait['traitDescription'];
