@@ -25,5 +25,6 @@ Route::controller(RaceController::class)->group(function() {
         Route::get('/list', 'index');
         Route::get('/list/details/{id}', 'show');
         Route::patch('/update/{id}', 'update');
+        Route::delete('/delete/{id}', 'destroy');
     });
 });
