@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CharacterClassController;
 use App\Http\Controllers\RaceController;
+use App\Models\CharacterClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +28,11 @@ Route::controller(RaceController::class)->group(function() {
         Route::get('/list/details/{id}', 'show');
         Route::patch('/update/{id}', 'update');
         Route::delete('/delete/{id}', 'destroy');
+    });
+});
+
+Route::controller(CharacterClassController::class)->group(function() {
+    Route::prefix('/class')->group(function() {
+        Route::post('/create', 'store');
     });
 });
