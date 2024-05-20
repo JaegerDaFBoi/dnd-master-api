@@ -39,7 +39,8 @@ class CharacterClassController extends Controller
         $newCharacterClass->initial_equipment = json_encode($request['initialEquipment']);
         $newCharacterClass->multiclassing_info = json_encode($request['multiclassingInfo']);
         $newCharacterClass->save();
-        
+        $this->traitsService->saveTraits($request['classTraits'], $newCharacterClass);
+
         return response()->json([
             "message" => "Clase agregada correctamente"
         ], 200);

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CharacterClass;
 use App\Models\CharacterTrait;
 use App\Models\Race;
 
@@ -11,6 +12,7 @@ class TraitsService
     public function saveTraits($traits, $model)
     {
         $traitsIds = [];
+        $additionalTraitColums = [];
         $model = $model;
         foreach ($traits as $trait) {
             $traitToSave = new CharacterTrait();
@@ -20,7 +22,14 @@ class TraitsService
             $traitToSave->trait_details = json_encode($trait['traitDetails']);
             $traitToSave->save();
             $traitId = $traitToSave->character_trait_id;
-            array_push($traitsIds, $traitId);
+            if ($model instanceof CharacterClass) {
+                $additionalTraitColums = [
+                    'trait_level' => $trait['traitLevel'],
+                    'has_per_level_stats' => $trait['hasPerlevelStats'],
+                    'per_level_info' => $trait['perLevelInfo']
+                ];
+            }
+            $traitsIds[$traitId] = $additionalTraitColums;
         }
         $this->attachTraitsToModel($traitsIds, $model);
     }
@@ -28,7 +37,15 @@ class TraitsService
     public function attachTraitsToModel($ids, $model)
     {
         foreach ($ids as $id => $idValue) {
-            $model->traits()->attach(['trait_fk' => $idValue]);
+            if ($model instanceof CharacterClass) {
+                $model->traits()->attach($id, [
+                    'trait_level' => $idValue['trait_level'],
+                    'has_per_level_stats' => $idValue['has_per_level_stats'],
+                    'per_level_info' => json_encode($idValue['per_level_info'])
+                ]);
+            } else {
+                $model->traits()->attach(['trait_fk' => $id]);
+            }
         }
     }
 

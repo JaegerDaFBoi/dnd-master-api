@@ -25,6 +25,7 @@ class CharacterClass extends Model
     ];
 
     public function traits(): BelongsToMany {
-        return $this->belongsToMany(CharacterTrait::class, 'character_class_has_traits', 'character_class_fk', 'trait_fk', 'character_class_id', 'character_trait_id');
+        return $this->belongsToMany(CharacterTrait::class, 'character_class_has_traits', 'character_class_fk', 'trait_fk', 'character_class_id', 'character_trait_id')
+            ->withPivot(['trait_level', 'has_per_level_stats', 'per_level_info']);
     }
 }
