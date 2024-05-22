@@ -34,5 +34,7 @@ Route::controller(RaceController::class)->group(function() {
 Route::controller(CharacterClassController::class)->group(function() {
     Route::prefix('/class')->group(function() {
         Route::post('/create', 'store');
+        Route::get('/list', 'index');
+        Route::get('/list/details/{id}', 'show');
     });
 });
