@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CharacterClass;
+use App\Models\CharacterTrait;
 use App\Services\TraitsService;
 use Illuminate\Http\Request;
 
@@ -97,8 +98,21 @@ class CharacterClassController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CharacterClass $characterClass)
+    public function destroy(Request $request, $id)
     {
-        //
+        $characterClass = CharacterClass::find($id);
+        $traits = $characterClass->traits()->pluck('character_trait_id');
+        $characterClass->traits()->detach($traits);
+        if ($request['deleteTraitsFromDB'] === true) {
+            foreach ($traits as $trait) {
+                $traitToDelete = CharacterTrait::find($trait);
+                $traitToDelete->delete();
+            }
+        }
+        $characterClass->delete();
+
+        return response()->json([
+            "message" => "Registro eliminado correctamente"
+        ], 200);
     }
 } 
