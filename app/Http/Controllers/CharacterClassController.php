@@ -25,7 +25,7 @@ class CharacterClassController extends Controller
         return response()->json([
             "message" => "Busqueda realizada",
             "data" => $characterClasses
-        ]);
+        ], 200);
     }
 
     /**
@@ -61,7 +61,7 @@ class CharacterClassController extends Controller
         return response()->json([
             "message" => "Busqueda realizada",
             "data" => $characterClass
-        ]);
+        ], 200);
     }
 
     /**
@@ -75,9 +75,23 @@ class CharacterClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CharacterClass $characterClass)
+    public function update(Request $request, $id)
     {
-        //
+        $characterClass = CharacterClass::find($id);
+        $this->traitsService->updateTraits($request['classTraits'], $characterClass);
+        $characterClass->class_name = $request['className'];
+        $characterClass->class_description = json_encode($request['classDescription']);
+        $characterClass->hit_points = json_encode($request['hitPoints']);
+        $characterClass->class_proficiencies = json_encode($request['classProficiencies']);
+        $characterClass->saving_throws = json_encode($request['savingThrows']);
+        $characterClass->skill_proficiencies = json_encode($request['skillProficiencies']);
+        $characterClass->initial_equipment = json_encode($request['initialEquipment']);
+        $characterClass->multiclassing_info = json_encode($request['multiclassingInfo']);
+        $characterClass->save();
+
+        return response()->json([
+            "message" => "Registro actualizado correctamente"
+        ], 200);
     }
 
     /**
