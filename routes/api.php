@@ -36,5 +36,6 @@ Route::controller(CharacterClassController::class)->group(function() {
         Route::post('/create', 'store');
         Route::get('/list', 'index');
         Route::get('/list/details/{id}', 'show');
+        Route::patch('/update/{id}', 'update');
     });
 });
