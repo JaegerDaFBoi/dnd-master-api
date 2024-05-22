@@ -17,11 +17,15 @@ class CharacterClassController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display all character classes.
      */
     public function index()
     {
-        //
+        $characterClasses = CharacterClass::all();
+        return response()->json([
+            "message" => "Busqueda realizada",
+            "data" => $characterClasses
+        ]);
     }
 
     /**
@@ -47,11 +51,17 @@ class CharacterClassController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the details of specified class.
      */
-    public function show(CharacterClass $characterClass)
+    public function show($id)
     {
-        //
+        $characterClass = CharacterClass::where('character_class_id', $id)
+                            ->with('traits')
+                            ->get();
+        return response()->json([
+            "message" => "Busqueda realizada",
+            "data" => $characterClass
+        ]);
     }
 
     /**
@@ -77,4 +87,4 @@ class CharacterClassController extends Controller
     {
         //
     }
-}
+} 
