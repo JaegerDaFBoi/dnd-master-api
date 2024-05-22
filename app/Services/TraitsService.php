@@ -55,7 +55,7 @@ class TraitsService
         return $traits;
     }
 
-    public function updateRaceTraits($traitsToUpdate, Race $race)
+    public function updateTraits($traitsToUpdate, $model)
     {
         $newTraits = [];
         foreach ($traitsToUpdate as $trait) {
@@ -64,10 +64,10 @@ class TraitsService
             if ($traitExists) {
                 $existingTrait = $searchedTrait;
                 if ($trait['deleteFromDB'] === true) {
-                    $race->traits()->detach([$existingTrait->character_trait_id]);
+                    $model->traits()->detach([$existingTrait->character_trait_id]);
                     $existingTrait->delete();
                 } elseif ($trait['deleteFromModel'] === true) {
-                    $race->traits()->detach([$existingTrait->character_trait_id]);
+                    $model->traits()->detach([$existingTrait->character_trait_id]);
                 } else {
                     $existingTrait->trait_title = $trait['traitTitle'];
                     $existingTrait->trait_description = $trait['traitDescription'];
@@ -87,7 +87,7 @@ class TraitsService
             }
         }
         if (count($newTraits) > 0) {
-            $this->attachTraitsToModel($newTraits, $race);
+            $this->attachTraitsToModel($newTraits, $model);
         }
     }
 }
